@@ -1,16 +1,25 @@
 from django.db import models
 from mongoengine import *
 
-# Create your models here.
 
 connect('blog_test')
 
 #monogodb数据集合映射
 class Article(Document):
-    name = StringField(max_length=50)
-    title = StringField(max_length=50)
-    comment = StringField()
-    views = IntField()
+    meta = {
+        'collection': 'article_data'
+    }
+    article_id = SequenceField(required=True, primary_key=True)
+    arctle_name = StringField(max_length=50)
+    artilce_title = StringField(max_length=50)
+    article_comment = ListField()
+    article_views_count = IntField()
+
+    @queryset_manager
+    def get_article_by_queue(doc_cls, queryset):
+        return queryset.order_by('+aruticle_id')
+
+
 
 
 
