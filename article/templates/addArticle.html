@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加文章</title>
+<style>
+    input{
+        margin-bottom:20px;
+    }
+    #addArticle{
+        height:500px;
+        width:500px;
+        margin:0 auto;
+    }
+</style>
+</head>
+<body>
+    <div id="addArticle">
+        <form action="." method="post">{% csrf_token %}
+           <b>文章标题</b>
+           <input type="text" name="title" placeholder="请输入文章标题"/>
+           <br/>
+           <b>作者</b><input type="text" name="author"/>
+           <br/>
+           <b>栏目</b><input type="text" name="column"/>
+           <br/>
+           <b>文章内容</b>
+           <div>
+             <textarea rows="20" cols="50" style="resize:none;" name="content"></textarea>
+           </div>
+           <input type="submit" value="发布">
+         </form>
+    </div>
+</body>
+</html>

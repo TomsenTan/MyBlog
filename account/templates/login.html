@@ -23,6 +23,9 @@
 				<input type="hidden" name="source_url" value="{{ request.META.HTTP_REFERER }}">
 				<input type="submit" value="登录" >
 				<div class="clear"> </div>
+                {% if err_msg %}
+                    <div style="margin:0 auto;"><span>err_msg</span></div>
+                {% endif %}
 			</ul>
 			<div class="clear"> </div>
 		</form>

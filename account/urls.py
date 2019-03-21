@@ -7,7 +7,6 @@ urlpatterns = [
     path('login',user_login,name='login'),
     path('logout',user_logout,name='logout'),
     path('register',register,name='register'),
-    path('password-change',auth_views.password_change,name='password_change'),
-    path('password-change-done',auth_views.password_change_done,name='password_change_done'),
-
+    path('password-change',auth_views.PasswordChangeView,name='password_change'),
+    path('password-change-done',auth_views.PasswordChangeDoneView,name='password_change_done'),
 ]

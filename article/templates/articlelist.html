@@ -1,0 +1,28 @@
+{% extends "articleBase.html" %}
+
+{% load staticfiles %}
+
+{% block title %}article list{% endblock %}
+
+{% block content %}
+<div>
+    <table class="table table-hover">
+       <tr>
+           <td>序号</td>
+           <td>标题</td>
+           <td>文章作者</td>
+           <td>栏目</td>
+           <td>阅读量</td>
+       </tr>
+       {% for article in articles %}
+       <tr>
+           <td>{{ article.article_id }}</td>
+           <td>{{ article.article_title }}</td>
+           <td>{{ article.article_author }}</td>
+           <td>{{ article.article_column }}</td>
+           <td >{{ article.article_views_count }}</td>
+       </tr>
+       {% endfor %}
+   </table>
+</div>
+{% endblock %}

@@ -1,10 +1,11 @@
 from django.shortcuts import render,redirect,HttpResponseRedirect
-from django.template import  loader
+from django.template import loader
 from django.http import HttpResponse
 import json
 from mongoengine import Q
 from article.models import Article
 import printlog
+from MGengine import MongoEngine as MGeng
 
 '''
 数据库基于Mongodb
@@ -35,28 +36,33 @@ def hot_articles_views(request):
 # 添加文章
 def add_article_views(request):
     if request.method == "GET":
-        return render(request, 'add_article.html')
+        return render(request, 'addArticle.html')
     else:
         try:
-            addName = request.POST['author']
-            addTitle = request.POST['title']
-            addComment = request.POST['content']
-            article = Article(name=addName, title=addTitle, comment=addComment)
+            articleAuthor = request.POST['author']
+            articleTitle = request.POST['title']
+            articleComment = request.POST['content']
+            articleColumn = request.POST['column']
+            article = Article(article_author=articleAuthor, article_title=articleTitle,
+                              article_column=articleColumn, article_comment=articleComment,
+                              )
             # article.switch_collection('article_more') # 切换集合，此用法需谨慎
+
             article.save()
 
         # with switch_collection(Article,'article_more') as Article_More:
         #   article = Article_More(name='Thomson', title='Phone Development', comment='python进阶教程')#切换集合
         #   article.save()
             sussOrFail = 200
-            return render(request, 'hotArticle.html', status=sussOrFail)
+            return render(request, 'addArticle.html', status=sussOrFail)
 
         except Exception as e:
             sussOrFail = 404
-            return render(request, 'add_article.html', status=sussOrFail)
+            printlog.err(e)
+            return render(request, 'addArticle.html', status=sussOrFail)
 
-        finally:
-            return render(request, 'hotArticle.html')
+        # finally:
+        #     return render(request, 'articlelist.html')
 
 
 # 获取文章内容
@@ -64,16 +70,19 @@ def get_article_views(request):
     if request.method == 'GET':
         # 排除掉comment字段
         # articles = Article.objects.exclude('comment').batch_size(1)
-
-        articles = Article.objects.exclude('views').batch_size(1)
+        # articles = Article.objects.exclude('views').batch_size(1)
 
         # 求平均阅读数
-        articles_views_average = articles.average('views')
+        # articles_views_average = articles.average('views')
         # print(articles_views_average)
 
-        return render(request, 'article.html', locals())
+        # articles = Article.objects.all()
+        articles = MGeng(Article).GETAll()
+        print(articles)
+        return render(request, 'articlelist.html', locals())
     else:
-        printlog.info()
+        INFO = 'get article'
+        printlog.info(INFO)
 
 
 # 修改文章内容
@@ -96,7 +105,8 @@ def update_article_views(request):
             printlog.err(e)
 
         finally:
-            printlog.info()
+            INFO = 'update article'
+            printlog.info(INFO)
 
 
 # 添加文章评论
