@@ -7,21 +7,11 @@ from article.models import Article
 import printlog
 from MGengine import MongoEngine as MGeng
 
+
+
 '''
 数据库基于Mongodb
 '''
-
-
-def index_views(request):
-    return render(request, 'first.html')
-
-def article_modulse_python_views(request):
-     # t = loader.get_template('show.html')
-     # html = t.render({'title':'music'})  # 不一样的东西可以传入变量，如不同的文章分类模块
-     # return HttpResponse(html)
-     return render(request, 'show.html', {'title': 'python'})
-
-
 def hot_articles_views(request):
     return render(request, 'hotArticle.html')
 
@@ -43,12 +33,13 @@ def add_article_views(request):
             articleTitle = request.POST['title']
             articleComment = request.POST['content']
             articleColumn = request.POST['column']
-            article = Article(article_author=articleAuthor, article_title=articleTitle,
-                              article_column=articleColumn, article_comment=articleComment,
-                              )
+            if articleAuthor and articleTitle and articleComment and articleColumn:
+                article = Article(article_author=articleAuthor, article_title=articleTitle,
+                                  article_column=articleColumn, article_comment=articleComment,
+                                  article_views_count=0)
             # article.switch_collection('article_more') # 切换集合，此用法需谨慎
 
-            article.save()
+                article.save()
 
         # with switch_collection(Article,'article_more') as Article_More:
         #   article = Article_More(name='Thomson', title='Phone Development', comment='python进阶教程')#切换集合
