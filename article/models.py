@@ -3,6 +3,7 @@ from django.db import models
 from mongoengine import *
 from slugify import slugify
 from datetime import datetime
+import time
 
 
 connect('blog_test')
@@ -19,7 +20,7 @@ class Article(Document):
     article_comment = StringField()
     # article_comment = ListField()
     article_views_count = IntField()
-    article_update_time = DateField(default=datetime.now())
+    article_update_time = DateTimeField(default=datetime.now())  # 注意不是DateField(否则只存日期)
 
     @queryset_manager
     def get_article_by_queue(doc_cls, queryset):

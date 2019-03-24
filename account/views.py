@@ -1,3 +1,4 @@
+# -*- coding:UTF-8 -*-
 '''
 登录和注册表单前端接口
 @Author:Thomson
@@ -10,8 +11,6 @@ from django.contrib.auth import authenticate,login,logout #用户认证
 from account.forms import LoginForm,RegistrationForm
 import printlog
 
-
-# Create your views here.
 
 def user_login(request):
     if request.method == 'GET':
@@ -43,13 +42,13 @@ def user_logout(request):
 def register(request):
      if request.method == "POST":
           user_form = RegistrationForm(request.POST)
-          if  user_form.is_valid():  #表单没有错误
+          if  user_form.is_valid():  # 表单没有错误
               new_user = user_form.save(commit=False)
               new_user.set_password(user_form.cleaned_data['password'])
               new_user.save()
               return HttpResponse('注册成功！')
           else:
-              #报出错误
+              # 报出错误
               return  HttpResponse(user_form.errors)
 
 

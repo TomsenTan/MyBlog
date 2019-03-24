@@ -1,3 +1,4 @@
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,7 +38,7 @@
            <td>{{ article.article_title }}</td>
            <td>{{ article.article_author }}</td>
            <td>{{ article.article_column }}</td>
-           <td >{{ article.article_views_count }}</td>
+           <td >{{ article.article_views_count | intcomma}}</td>
            <td >{{ article.article_update_time }}</td>
        </tr>
        {% endfor %}

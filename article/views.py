@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect,HttpResponseRedirect
 from django.template import loader
 from django.http import HttpResponse
 import json
+from datetime import datetime
+import time
 from mongoengine import Q
 from article.models import Article
 import printlog
@@ -36,7 +38,7 @@ def add_article_views(request):
             if articleAuthor and articleTitle and articleComment and articleColumn:
                 article = Article(article_author=articleAuthor, article_title=articleTitle,
                                   article_column=articleColumn, article_comment=articleComment,
-                                  article_views_count=0)
+                                  article_views_count=0, article_update_time=datetime.now())
             # article.switch_collection('article_more') # 切换集合，此用法需谨慎
 
                 article.save()
@@ -67,9 +69,9 @@ def get_article_views(request):
         # articles_views_average = articles.average('views')
         # print(articles_views_average)
 
-        # articles = Article.objects.all()
-        articles = MGeng(Article).GETAll()
-        print(articles)
+        # articles = MGeng(Article).GETAll()
+        _key = 'article_views_count'
+        articles = MGeng(Article).ORDER(_key, des=-1)
         return render(request, 'articlelist.html', locals())
     else:
         INFO = 'get article'
